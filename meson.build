@@ -18,13 +18,19 @@ if systemd.found()
         endif
 endif
 
-qrtr_dep = dependency('qrtr')
+inc = include_directories('include')
 
 tqftpserv_srcs = ['translate.c',
-                  'tqftpserv.c']
+                  'tqftpserv.c',
+		'qrtr.c',
+		'qmi.c',
+		'logging.c'
+		]
 executable('tqftpserv',
            tqftpserv_srcs,
-           dependencies : qrtr_dep,
+           include_directories : inc,
+#           link_with : libqrtr,
+           link_args: ['-static','-static-libgcc'],
            install : true)
 
 if systemd.found()
